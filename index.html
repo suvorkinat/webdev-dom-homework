@@ -97,7 +97,7 @@
       answerComment();
     };
 
-    function initEventListeners () {
+    function initEventListeners() {
       const likesElements = document.querySelectorAll(".like-button");
       for (const likesElement of likesElements) {
         likesElement.addEventListener("click", function (event) {
@@ -115,13 +115,10 @@
           renderComments();
         });
       }
-    };
+    }
 
     renderComments();
-   
-   
 
-    
     //добавить коммент
     function addNewComment() {
       const currentDate =
@@ -154,23 +151,34 @@
     </li>`
       );
       comments.push({
-        name: inputNameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-
+        name: inputNameElement.value
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;"),
         time: currentDate,
-        comment: inputTextElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+        comment: inputTextElement.value
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;"),
         likes: 0,
         isLiked: false,
       });
+      renderComments();
 
       inputNameElement.value = "";
       inputTextElement.value = "";
-      initEventListeners();
     }
-   
+    
+
     buttonElement.addEventListener("click", () => {
       inputNameElement.classList.remove("error");
       inputTextElement.classList.remove("error");
-      if (inputNameElement.value.trim() === "" || inputTextElement.value.trim() === "") {
+      if (
+        inputNameElement.value.trim() === "" ||
+        inputTextElement.value.trim() === ""
+      ) {
         inputNameElement.classList.add("error");
         inputTextElement.classList.add("error");
         return;
@@ -181,17 +189,17 @@
       inputTextElement.value = "";
     });
 
-    //ответ на комментарий 
+    //ответ на комментарий
     function answerComment() {
-  const comment = document.querySelectorAll('.comment')
-  const  inputNameElement= document.querySelector('.add-form-name')
-  const inputTextElement = document.querySelector('.add-form-text')
-comment.forEach((el, index) => {
-  el.addEventListener('click', () => {
-    inputTextElement.value = `${comments[index].name} \n ${comments[index].comment}`
-  })
-});
-}
+      const comment = document.querySelectorAll(".comment");
+      const inputNameElement = document.querySelector(".add-form-name");
+      const inputTextElement = document.querySelector(".add-form-text");
+      comment.forEach((el, index) => {
+        el.addEventListener("click", () => {
+          inputTextElement.value = `${comments[index].name} \n ${comments[index].comment}`;
+        });
+      });
+    }
     // Чтобы форма отправлялась клавишей Enter
     inputTextElement.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
