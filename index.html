@@ -209,9 +209,11 @@
     });
     //Удаление последнего комментария
     buttonElementDel.addEventListener("click", () => {
-      const lastElement = commentElement.lastChild;
-      commentElement.removeChild(lastElement);
-    });
-    //console.log("It works!");
+  if (comments.length > 0) {
+    comments.pop();
+    renderComments();
+  }
+});
+    //console.log("It works!");*/
   </script>
 </html>
