@@ -78,7 +78,7 @@
     method: "GET"
   }).then((response) => {
     response.json().then((responseData) => {
-     const appComments = responseData.comments.map((comment) => {
+     const comments = responseData.comments.map((comment) => {
         return {
           name: comment.author.name,
             time:  new Date().toLocaleDateString("default", {
@@ -93,7 +93,6 @@
             isliked: false,
         };
       });
-      comments = appComments;
       renderComments();
     });
   });
