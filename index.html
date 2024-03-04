@@ -74,13 +74,12 @@
           },
         ];
       //2.12
-
-      
-      fetch("https://wedev-api.sky.pro/api/v1/tahya-s/comments", {
+      const getComments = () => {
+      fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
     method: "GET"
   }).then((response) => {
     response.json().then((responseData) => {
-     const comments = responseData.comments.map((comment) => {
+     comments = responseData.comments.map((comment) => {
         return {
           name: comment.author.name,
             time:  new Date().toLocaleDateString("default", {
@@ -92,13 +91,14 @@
             new Date().toLocaleTimeString().slice(0, -3),
             comment: comment.text,
             likes: comment.likes,
-            isliked: false,
+            isLiked: false,
         };
       });
       renderComments();
     });
   });
-
+      };
+      getComments();
      
         // рендер комментария
         const renderComments = () => {
@@ -161,27 +161,6 @@
 
         //добавить коммент
         function addNewComment() {
-         
-         commentElement.insertAdjacentHTML(
-            "beforeend",
-            `<li class="comment">
-          <div class="comment-header">
-            <div>${inputNameElement.value}</div>
-            <div>${currentDate}</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              ${inputTextElement.value}
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">0</span>
-              <button  data-index="${comments.length}" class="like-button"/>
-            </div>
-          </div>
-        </li>`
-          );
           comments.push({
             name: inputNameElement.value
               .replaceAll("&", "&amp;")
@@ -199,26 +178,22 @@
           });
           //renderComments();
           postPromiseFetch();
+        };
+        function postPromiseFetch() {
 
-          inputNameElement.value = "";
-          inputTextElement.value = "";
-
-          function postPromiseFetch() {
-
-          fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
+      const fetchPromisePost = fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
       method: "POST",
       body: JSON.stringify({
         name: sanitizeHtml(inputNameElement.value),
         text: sanitizeHtml(inputTextElement.value),
-      }),
-    }).then((response) => {
-      const jsonPromise = response.json().then((responseData) => {
-        renderComments();
       })
+    }).then((response) => {
+      return response.json();
 
-    });
-          }
-
+})
+.then((responseData) => {
+  getComments();
+})
     inputNameElement.value = "";
     inputTextElement.value = "";
   };
