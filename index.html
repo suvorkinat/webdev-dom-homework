@@ -9,7 +9,9 @@
   <body>
     </div>
     <div class="container">
+      <div id="container-preloader"></div>
       <ul class="comments" id="comments-container"></ul>
+      <div id="container-preloader-post"></div>
       <div class="add-form">
         <input
           type="text"
@@ -46,6 +48,7 @@
         const commentElement = document.querySelector(".comments");
         const buttonElementDel = document.querySelector(".delete-form-button");
         const likeButtonsElement = document.querySelectorAll(".likes");
+        const commentsContainer = document.getElementById("comments-container");
         const currentDate =
             new Date().toLocaleDateString("default", {
               day: "2-digit",
@@ -54,8 +57,9 @@
             }) +
             " " +
             new Date().toLocaleTimeString().slice(0, -3);
-            
-
+            const containerPreloader = document.getElementById('container-preloader');
+            const containerPreloaderPost = document.getElementById('container-preloader-post'); 
+            const addForm = document.querySelector('.add-form');
         // Переносим даннык из разметки
         let comments = [
           {
@@ -73,13 +77,20 @@
             isLiked: false,
           },
         ];
+        containerPreloader.textContent = 'Пожалуйста подождите, идет загрузка комментариев...';
+        containerPreloaderPost.style.display = 'none';
+
       //2.12
       const getComments = () => {
       fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
     method: "GET"
-  }).then((response) => {
-    response.json().then((responseData) => {
-     comments = responseData.comments.map((comment) => {
+  })
+  .then((response) => {
+    return response.json();
+  })
+  .then((responseData) => {
+    console.log(responseData);
+    const newComments = responseData.comments.map((comment) => {
         return {
           name: comment.author.name,
             time:  new Date().toLocaleDateString("default", {
@@ -94,16 +105,22 @@
             isLiked: false,
         };
       });
+      comments = comments.concat(newComments);
+      containerPreloader.textContent = '';
+      containerPreloaderPost.style.display = 'block';
       renderComments();
-    });
-  });
+    })
+    .then((data) => {
+      buttonElement.disabled = false;
+    buttonElement.textContent = 'Написать';
+    })
       };
       getComments();
      
         // рендер комментария
         const renderComments = () => {
-          const commentsContainer = document.getElementById("comments-container");
-          commentsContainer.innerHTML = "";
+          //const commentsContainer = document.getElementById("comments-container");
+          //commentsContainer.innerHTML = "";
           const commentsHtml = comments
             .map((comment, index) => {
               return ` <li class="comment">
@@ -215,6 +232,9 @@
 
           inputNameElement.value = "";
           inputTextElement.value = "";
+          buttonElement.disabled = true;
+          buttonElement.textContent = 'Комментарий добавляется...';
+    
         });
 
         //ответ на комментарий
