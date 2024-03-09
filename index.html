@@ -61,29 +61,14 @@
             const containerPreloaderPost = document.getElementById('container-preloader-post'); 
             const addForm = document.querySelector('.add-form');
         // Переносим даннык из разметки
-        let comments = [
-          {
-            name: "Глеб Фокин",
-            time: "12.02.22 12:18",
-            comment: "Это будет первый комментарий на этой странице",
-            likes: 3,
-            isLiked: false,
-          },
-          {
-            name: "Варвара Н.",
-            time: "13.02.22 19:22",
-            comment: "Мне нравится как оформлена эта страница! ❤️",
-            likes: 75,
-            isLiked: false,
-          },
-        ];
+        let comments = [];
         containerPreloader.textContent = 'Пожалуйста подождите, идет загрузка комментариев...';
         containerPreloaderPost.style.display = 'none';
 
-      //2.12
-      const getComments = () => {
+      
+    const getComments = () => {
       fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
-    method: "GET"
+    method: "GET",
   })
   .then((response) => {
     return response.json();
@@ -105,7 +90,7 @@
             isLiked: false,
         };
       });
-      comments = comments.concat(newComments);
+      comments = newComments;
       containerPreloader.textContent = '';
       containerPreloaderPost.style.display = 'block';
       renderComments();
@@ -178,7 +163,7 @@
 
         //добавить коммент
         function addNewComment() {
-          comments.push({
+         /* comments.push({
             name: inputNameElement.value
               .replaceAll("&", "&amp;")
               .replaceAll("<", "&lt;")
@@ -192,11 +177,12 @@
               .replaceAll('"', "&quot;"),
             likes: 0,
             isLiked: false,
-          });
+          }); */
           //renderComments();
           postPromiseFetch();
         };
-        function postPromiseFetch() {
+
+       function postPromiseFetch() {
 
       const fetchPromisePost = fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
       method: "POST",
