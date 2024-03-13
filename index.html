@@ -95,10 +95,6 @@
       containerPreloaderPost.style.display = 'block';
       renderComments();
     })
-    .then((data) => {
-      buttonElement.disabled = false;
-    buttonElement.textContent = 'Написать';
-    })
       };
       getComments();
      
@@ -155,30 +151,14 @@
           }
         }
 
-        renderComments();
+        //renderComments();
 
         const sanitizeHtml = (htmlString) => {
     return htmlString.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
   }
 
         //добавить коммент
-        function addNewComment() {
-         /* comments.push({
-            name: inputNameElement.value
-              .replaceAll("&", "&amp;")
-              .replaceAll("<", "&lt;")
-              .replaceAll(">", "&gt;")
-              .replaceAll('"', "&quot;"),
-            time: currentDate,
-            comment: inputTextElement.value
-              .replaceAll("<", "&lt;")
-              .replaceAll(">", "&gt;")
-              .replaceAll(">", "&gt;")
-              .replaceAll('"', "&quot;"),
-            likes: 0,
-            isLiked: false,
-          }); */
-          //renderComments();
+        function addNewComment() { 
           postPromiseFetch();
         };
 
@@ -189,19 +169,49 @@
       body: JSON.stringify({
         name: sanitizeHtml(inputNameElement.value),
         text: sanitizeHtml(inputTextElement.value),
+        forceError: true
       })
+
     }).then((response) => {
-      return response.json();
-
+      console.log(response);
+      inputNameElement.value = "";
+      inputTextElement.value = "";
+      //return response.json();
+      if (response.status === 201) {
+        return response.json();
+      }else if (response.status === 500) {
+         throw new Error("Сервер сломался")
+} else if (response.status === 400) {
+  throw new Error("Недопустимое количество символов")
+}
 })
-.then((responseData) => {
-  getComments();
+.then(() => {
+ return getComments();
 })
-    inputNameElement.value = "";
-    inputTextElement.value = "";
-  };
+.then(() => {
+buttonElement.disabled = false;
+buttonElement.textContent = 'Написать';
+//inputNameElement.value = "";
+//inputTextElement.value = "";
+})
+.catch((error) => {
+buttonElement.disabled = false;
+buttonElement.textContent = 'Написать';
 
-  renderComments();
+if (error.message === "Сервер сломался") {
+  alert("Сервер сломался, попробуйте позже")
+}
+if (error.message === "Недопустимое количество символов") {
+  alert("Имя и комментарий должны быть не короче 3-х символов")
+}
+if (error.message === 'Failed to fetch') {
+  alert('Интернет не работает, попробуйте позже');
+}
+console.warn(error);
+})
+};
+
+  //renderComments();
 
         buttonElement.addEventListener("click", () => {
           inputNameElement.classList.remove("error");
