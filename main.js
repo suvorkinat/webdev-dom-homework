@@ -3,6 +3,8 @@ import {renderComments} from "./render.js"
 import {initEventListeners, initEventAndCommentListener, answerComment} from "./listeners.js"
 import { normalizeComments } from "./helpers.js";
 
+
+
 const inputNameElement = document.querySelector(".add-form-name");
 const inputTextElement = document.querySelector(".add-form-text");
 const buttonElement = document.querySelector(".add-form-button");
@@ -35,6 +37,8 @@ const fetchPromiseGet = () => {
 fetchPromiseGet();
 initEventAndCommentListener();
 
+
+
 console.log("It works!");
 
 // Чтобы форма отправлялась клавишей Enter
@@ -44,11 +48,11 @@ inputTextElement.addEventListener("keydown", function (event) {
     buttonElement.click();
   }
 });
-//Удаление последнего комментария
+//удаление последнего комментария
 buttonElementDel.addEventListener("click", () => {
-if (comments.length > 0) {
-comments.pop();
-renderComments();
-}
+
+  comments.pop();
+  renderComments(comments)
 });
+
 //console.log("It works!");*/

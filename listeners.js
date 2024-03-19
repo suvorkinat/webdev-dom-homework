@@ -36,7 +36,7 @@ export const initEventAndCommentListener = () => {
     buttonElement.addEventListener("click", () => {
         inputNameElement.classList.remove("error");
         inputTextElement.classList.remove("error");
-        if (inputNameElement.value === "" || inputTextElement.value === "") {
+        if (inputNameElement.value.trim() === "" || inputTextElement.value.trim() === "") {
           inputNameElement.classList.add("error");
           inputTextElement.classList.add("error");
           return;
@@ -56,7 +56,6 @@ export const initEventAndCommentListener = () => {
               
             // получили данные и рендерим их в приложении
             setComments(appComments);
-            //console.log(comments)
             renderComments({comments, initEventListeners, answerComment});
             
           })

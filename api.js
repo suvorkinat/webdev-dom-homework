@@ -28,7 +28,7 @@ export function getPromise () {
     }else if (response.status === 500) {
       throw new Error("Сервер сломался")
     }else if (response.status === 400) {
-      throw new Error("Недопустие количество символов")
+      throw new Error("Недопустимое количество символов")
     }
     
     })
