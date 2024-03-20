@@ -52,7 +52,7 @@ inputTextElement.addEventListener("keydown", function (event) {
 buttonElementDel.addEventListener("click", () => {
 
   comments.pop();
-  renderComments(comments)
+  renderComments({comments, initEventListeners, answerComment});
 });
 
 //console.log("It works!");*/
