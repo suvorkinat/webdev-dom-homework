@@ -3,14 +3,17 @@ export function getPromise () {
     return fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
         method: "GET",
     })
-    .then((response) => {
-
-        return response.json();
-      
-      })
-      
-      }
-
+      .then((response) => {
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            throw new Error("failed to get: " + response.status);
+        }
+    })
+    .catch((error) => {
+        console.error("Произошла ошибка при выполнении GET-запроса:", error);
+    });
+}
       export function postPromise({ text, name})  {
     return fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
         method: "POST",
