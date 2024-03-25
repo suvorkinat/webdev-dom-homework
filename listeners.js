@@ -4,11 +4,16 @@ import {renderComments} from "./render.js"
 import {comments, setComments} from "./main.js"
 
 //функция добвления обрабочика клика
-export const initEventListeners = ({comments, initEventListeners, answerComment}) => {
+export const initEventListeners = ({comments}) => {
     const likesElements = document.querySelectorAll(".like-button");
     for (const likesElement of likesElements) {    
       likesElement.addEventListener('click', (event) => {
         event.stopPropagation();
+
+        if (!token) {
+            return
+          }
+  
 
         const index = likesElement.dataset.index;
     
@@ -22,7 +27,7 @@ export const initEventListeners = ({comments, initEventListeners, answerComment}
           comments[index].likes++;
         }
     
-        renderComments({comments, initEventListeners, answerComment});
+        renderComments({comments});
     
       });
     }
@@ -90,6 +95,9 @@ export const initEventAndCommentListener = () => {
 }
 //ответ на комментарии
    export function answerComment() {
+    if (!token) {
+        return
+      }
     const comment = document.querySelectorAll(".comment");
     const inputNameElement = document.querySelector(".add-form-name");
     const inputTextElement = document.querySelector(".add-form-text");

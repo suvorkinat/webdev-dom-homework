@@ -1,7 +1,24 @@
 
+const loginURL = "https://wedev-api.sky.pro/api/user/login";
+
+export let token;
+
+export let user;
+
+export const setToken = (newToken) => {
+   token = newToken;
+} 
+
+export const setUser = (newUser) => {
+  user = newUser;
+} 
+
 export function getPromise () {
     return fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
         method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
     })
       .then((response) => {
         if (response.status === 200) {
@@ -17,6 +34,9 @@ export function getPromise () {
       export function postPromise({ text, name})  {
     return fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
         method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
         body: JSON.stringify({
             name: name,
             text: text,
@@ -37,3 +57,25 @@ export function getPromise () {
     })
    
    }
+
+   export function loginUser({ login, password }) {
+    return fetch(loginURL, {
+      method: "POST",
+      body: JSON.stringify({
+        login,
+        password,
+      }),
+    })
+    .then((response) => {
+      if (response.status === 201) {
+        return response.json();
+      }
+      if (response.status === 400) {
+        throw new Error("Неправильный логин или пароль");
+      }
+    })
+    .catch((error) => {
+      alert(error);
+      console.warn(error);
+    });
+  }

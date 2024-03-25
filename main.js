@@ -2,6 +2,7 @@ import {getPromise, postPromise} from "./api.js"
 import {renderComments} from "./render.js"
 import {initEventListeners, initEventAndCommentListener, answerComment} from "./listeners.js"
 import { normalizeComments } from "./helpers.js";
+const commentsLoading = document.querySelector('.data-loading');
 
 
 
@@ -15,22 +16,15 @@ export function setComments(newComments) {
   comments = newComments;
 }
 const fetchPromiseGet = () => {
-
-  const containerPreloader = document.getElementById('container-preloader');
-  const containerPreloaderPost = document.getElementById('container-preloader-post');
-
-  containerPreloader.textContent = 'Пожалуйста подождите, идет загрузка комментариев...';
-  containerPreloaderPost.style.display = 'none';
-
   getPromise().then((responseData) => {
     // console.log(responseData);
+
     const appComments = normalizeComments(responseData.comments)
     // получили данные и рендерим их в приложении
     comments = appComments;
-    containerPreloader.textContent = '';
-    containerPreloaderPost.style.display = 'block';
+    
     //console.log(comments)
-    renderComments({comments, initEventListeners, answerComment});
+    renderComments({comments});
     
   })
 };
@@ -49,6 +43,7 @@ inputTextElement.addEventListener("keydown", function (event) {
   }
 });
 //удаление последнего комментария
+
 buttonElementDel.addEventListener("click", () => {
 
   comments.pop();
