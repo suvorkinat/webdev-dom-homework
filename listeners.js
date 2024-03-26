@@ -1,7 +1,8 @@
 import { getPromise, postPromise } from "./api.js";
 import { sanitize , normalizeComments} from "./helpers.js";
-import {renderComments} from "./render.js"
-import {comments, setComments} from "./main.js"
+import {renderComments} from "./render.js";
+import {comments, setComments} from "./main.js";
+import { token } from "./api.js";
 
 //функция добвления обрабочика клика
 export const initEventListeners = ({comments}) => {

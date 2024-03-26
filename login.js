@@ -1,5 +1,5 @@
 import { loginUser, setToken, setUser, token } from "./api.js";
-import { fetchPromiseGet } from "./index.js";
+import { fetchPromiseGet } from "./main.js";
 
 export const renderLogin = () => {
     const appElement = document.getElementById("app");

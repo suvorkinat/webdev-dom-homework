@@ -1,5 +1,6 @@
 
 const loginURL = "https://wedev-api.sky.pro/api/user/login";
+const host = "https://wedev-api.sky.pro/api/v1/tanya-s/comments"
 
 export let token;
 
@@ -14,7 +15,7 @@ export const setUser = (newUser) => {
 } 
 
 export function getPromise () {
-    return fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
+    return fetch(host, {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -32,7 +33,7 @@ export function getPromise () {
     });
 }
       export function postPromise({ text, name})  {
-    return fetch("https://wedev-api.sky.pro/api/v1/tanya-s/comments", {
+    return fetch(host, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -58,7 +59,7 @@ export function getPromise () {
    
    }
 
-   export function loginUser({ login, password }) {
+   export function loginUser ({ login, password }) {
     return fetch(loginURL, {
       method: "POST",
       body: JSON.stringify({

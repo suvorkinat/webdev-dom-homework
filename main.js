@@ -15,7 +15,7 @@ export let comments = [];
 export function setComments(newComments) {
   comments = newComments;
 }
-const fetchPromiseGet = () => {
+export const fetchPromiseGet = () => {
   getPromise().then((responseData) => {
     // console.log(responseData);
 
