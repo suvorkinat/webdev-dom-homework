@@ -34,7 +34,7 @@ export const initEventListeners = ({comments}) => {
     }
     };
 
-export const initEventAndCommentListener = () => {
+export const AddComment = () => {
     const inputNameElement = document.querySelector(".add-form-name");
     const inputTextElement = document.querySelector(".add-form-text");
     const buttonElement = document.querySelector(".add-form-button");

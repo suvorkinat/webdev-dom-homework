@@ -1,5 +1,5 @@
 import { token, user } from "./api.js";
-import { answerComment, initEventAndCommentListener, initEventListeners } from "./listeners.js";
+import { answerComment, AddComment, initEventListeners } from "./listeners.js";
 import { renderLogin } from "./login.js";
 
 export const renderComments = ({comments}) => {
@@ -62,7 +62,7 @@ export const renderComments = ({comments}) => {
     actionLogin();
     
     initEventListeners({comments});
-    initEventAndCommentListener();     
+    AddComment();     
     answerComment();
     };
     
