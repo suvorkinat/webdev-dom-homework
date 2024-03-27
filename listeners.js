@@ -4,8 +4,8 @@ import {renderComments} from "./render.js";
 import {comments, setComments} from "./main.js";
 import { token } from "./api.js";
 
-//функция добвления обрабочика клика
-export const initEventListeners = ({comments}) => {
+//функция добвления лайка
+export const addLike = ({comments}) => {
     const likesElements = document.querySelectorAll(".like-button");
     for (const likesElement of likesElements) {    
       likesElement.addEventListener('click', (event) => {
@@ -34,10 +34,29 @@ export const initEventListeners = ({comments}) => {
     }
     };
 
-export const AddComment = () => {
+export const addComment = () => {
     const inputNameElement = document.querySelector(".add-form-name");
     const inputTextElement = document.querySelector(".add-form-text");
     const buttonElement = document.querySelector(".add-form-button");
+    
+    inputTextElement.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        buttonElement.click();
+      }
+    });
+    //удаление последнего комментария
+    
+    const buttonElementDel = document.querySelector(".delete-form-button");
+    
+    if (buttonElementDel) {
+      buttonElementDel.addEventListener("click", () => {
+        comments.pop();
+        renderComments({comments, addLike, answerComment});
+      });
+    } else {
+      console.error("Элемент не найден в DOM");
+    }
 
     buttonElement.addEventListener("click", () => {
         inputNameElement.classList.remove("error");
@@ -62,7 +81,7 @@ export const AddComment = () => {
               
             // получили данные и рендерим их в приложении
             setComments(appComments);
-            renderComments({comments, initEventListeners, answerComment});
+            renderComments({comments, addLike, answerComment});
             
           })
         

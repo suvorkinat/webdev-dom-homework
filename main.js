@@ -1,6 +1,5 @@
 import {getPromise, postPromise} from "./api.js"
 import {renderComments} from "./render.js"
-import {initEventListeners, AddComment, answerComment} from "./listeners.js"
 import { normalizeComments } from "./helpers.js";
 const commentsLoading = document.querySelector('.data-loading');
 
@@ -28,29 +27,8 @@ export const fetchPromiseGet = () => {
   })
 };
 fetchPromiseGet();
-AddComment();
 
 
 
 console.log("It works!");
 
-// Чтобы форма отправлялась клавишей Enter
-inputTextElement.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    buttonElement.click();
-  }
-});
-//удаление последнего комментария
-
-const buttonElementDel = document.querySelector(".delete-form-button");
-
-if (buttonElementDel) {
-  buttonElementDel.addEventListener("click", () => {
-    comments.pop();
-    renderComments({comments, initEventListeners, answerComment});
-  });
-} else {
-  console.error("Элемент не найден в DOM");
-}
-//console.log("It works!");

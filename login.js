@@ -2,6 +2,7 @@ import { loginUser, setToken, setUser, token } from "./api.js";
 import { fetchPromiseGet } from "./main.js";
 
 export const renderLogin = () => {
+  //отрисовываем форму
     const appElement = document.getElementById("app");
     const loginHtml = `<h1>Страница входа</h1>
     <div class="add-form">
@@ -19,13 +20,14 @@ export const renderLogin = () => {
       <button class="button" id="login-button">Войти</button>
       <button class="button-reg">Зарегистрироваться</button>
     </div>`
+     //создаем элемент app
 
     appElement.innerHTML = loginHtml;
 
     const buttonGet = document.getElementById("login-button");
     const loginInput = document.getElementById("login-input");
     const passwordInput = document.getElementById("password-input");
-
+//Получаем данные от API
 buttonGet.addEventListener("click", () => {
     loginUser({
         login: loginInput.value,
@@ -38,5 +40,8 @@ buttonGet.addEventListener("click", () => {
     }).then(() => {
         fetchPromiseGet();
     })
+    .catch((error) => {
+      console.error("Произошла ошибка при установке имени пользователя:", error);
 });
+})
 };

@@ -1,9 +1,11 @@
 import { token, user } from "./api.js";
-import { answerComment, AddComment, initEventListeners } from "./listeners.js";
+import { answerComment, addComment, addLike } from "./listeners.js";
 import { renderLogin } from "./login.js";
 
 export const renderComments = ({comments}) => {
+
     const appElement = document.getElementById("app");
+//создаем комментарий
     const commentsHtml = comments
     .map((comment, index) => {
       return ` <li class="comment">
@@ -24,7 +26,7 @@ export const renderComments = ({comments}) => {
           </div>
         </li> `
     }).join("");
-    
+    //
     const formHtml = `<div class="add-form">
     <input
       type="text"
@@ -41,6 +43,7 @@ export const renderComments = ({comments}) => {
     ></textarea>
     <div class="add-form-row">
       <button class="add-form-button">Написать</button>
+      <button class="delete-form-button">Удалить последний комментарий</button>
     </div>
   </div>`
   
@@ -48,7 +51,7 @@ export const renderComments = ({comments}) => {
     <ul class="comments" id="list-comments" >${commentsHtml}</ul>
     ${token ? formHtml : '<p class="login-btn">Чтобы добавить комментарий, авторизуйтесь</p>'}
     `; 
-
+//открыть форму авторизации
     function actionLogin() {
       if (token) {
         return
@@ -61,8 +64,10 @@ export const renderComments = ({comments}) => {
 
     actionLogin();
     
-    initEventListeners({comments});
-    AddComment();     
+    addLike({comments});
+if (token) {
+  addComment();  
+}   
     answerComment();
     };
     
