@@ -1,7 +1,6 @@
 import {getPromise, postPromise} from "./api.js"
 import {renderComments} from "./render.js"
 import { normalizeComments } from "./helpers.js";
-const commentsLoading = document.querySelector('.data-loading');
 
 
 

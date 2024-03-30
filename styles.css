@@ -172,3 +172,8 @@ body {
     border-radius: 18px;
     cursor: pointer;
   }
+
+  .login-link:hover{
+    text-decoration: underline;
+    cursor: pointer;
+  }
