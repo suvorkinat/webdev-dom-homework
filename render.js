@@ -3,6 +3,7 @@ import { answerComment, addComment, addLike } from "./listeners.js";
 import { renderLogin } from "./login.js";
 import { sanitize } from "./helpers.js";
 
+
 export const renderComments = ({comments}) => {
 
     const appElement = document.getElementById("app");
