@@ -1,13 +1,17 @@
 import { token, user } from "./api.js";
 import { answerComment, addComment, addLike } from "./listeners.js";
 import { renderLogin } from "./login.js";
+import { sanitize } from "./helpers.js";
+
 
 export const renderComments = ({comments}) => {
 
     const appElement = document.getElementById("app");
+    
 //создаем комментарий
     const commentsHtml = comments
     .map((comment, index) => {
+      const sanitizedComment = sanitize(comment.comment);
       return ` <li class="comment">
           <div class="comment-header">
             <div>${comment.name}</div>
@@ -15,7 +19,7 @@ export const renderComments = ({comments}) => {
           </div>
           <div class="comment-body">
             <div class="comment-text">
-              ${comment.comment}
+              ${sanitizedComment}
             </div>
           </div>
           <div class="comment-footer">
@@ -49,14 +53,14 @@ export const renderComments = ({comments}) => {
   
   appElement.innerHTML = `
     <ul class="comments" id="list-comments" >${commentsHtml}</ul>
-    ${token ? formHtml : '<p class="login-btn">Чтобы добавить комментарий, авторизуйтесь</p>'}
+    ${token ? formHtml : '<p class="login-link">Чтобы добавить комментарий, авторизуйтесь</p>'}
     `; 
 //открыть форму авторизации
     function actionLogin() {
       if (token) {
         return
       }
-      const loginBtn = document.querySelector('.login-btn');
+      const loginBtn = document.querySelector('.login-link');
       loginBtn.addEventListener('click', () => {
       renderLogin();
       })
@@ -65,6 +69,7 @@ export const renderComments = ({comments}) => {
     actionLogin();
     
     addLike({comments});
+
 if (token) {
   addComment();  
 }   
